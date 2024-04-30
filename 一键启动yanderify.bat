@@ -6,30 +6,30 @@ if not exist "%dir%" (md "%dir%")
 if not exist "%tmp%" (md "%tmp%")
 if not exist "%dir%\Ffmpeg" (md "%dir%\Ffmpeg")
 
-:: ²Ëµ¥Çø
+:: èœå•åŒº
 echo.
-echo 1£©°²×°
+echo 1ï¼‰å®‰è£…
 echo.
-echo 2£©Ğ¶ÔØ
+echo 2ï¼‰å¸è½½
 echo.
 echo ---------------
-set /p choice=ÄãµÄÑ¡ÔñÊÇ£º
+set /p choice=ä½ çš„é€‰æ‹©æ˜¯ï¼š
 if "%choice%"=="1" (
 	mode con cols=85 lines=40&color 9f&cls
     goto :install
 ) else if "%choice%"=="2" (
     goto :uninstall
 ) else (
-    echo ÎŞĞ§µÄÑ¡Ôñ¡£
+    echo æ— æ•ˆçš„é€‰æ‹©ã€‚
     pause
 	exit 1
 )
 
 :install
-:: ¼ì²âÊÇ·ñ°²×°ÁË Python
+:: æ£€æµ‹æ˜¯å¦å®‰è£…äº† Python
 py --version >nul 2>nul
 if %errorlevel% neq 0 (
-    echo PythonÎ´°²×°£¬³¢ÊÔ°²×°...
+    echo Pythonæœªå®‰è£…ï¼Œå°è¯•å®‰è£…...
     if exist "%tmp%\python.exe" (
         %tmp%\python.exe /quiet InstallAllUsers=1 PrependPath=1
     ) else (
@@ -38,31 +38,31 @@ if %errorlevel% neq 0 (
     )
     py --version >nul 2>nul
     if %errorlevel% neq 0 (
-        echo Python°²×°Ê§°Ü...&& pause 
+        echo Pythonå®‰è£…å¤±è´¥...&& pause 
         exit /b 1
     )
 ) else (
-    echo PythonÒÑ°²×°£¡
+    echo Pythonå·²å®‰è£…ï¼
 )
 
-:: yanderify±¾ÌåÏÂÔØ
-:: ¼ì²é yanderify.exe ÊÇ·ñ´æÔÚ
+:: yanderifyæœ¬ä½“ä¸‹è½½
+:: æ£€æŸ¥ yanderify.exe æ˜¯å¦å­˜åœ¨
 if exist "%dir%\yanderify\yanderify.exe" (
-    echo yanderifyÒÑ´æÔÚ£¡ÎŞĞèÏÂÔØ¡£
+    echo yanderifyå·²å­˜åœ¨ï¼æ— éœ€ä¸‹è½½ã€‚
 ) else (
-    :: ¼ì²éÁÙÊ±ÎÄ¼ş¼ĞÖĞÊÇ·ñÓĞyanderify.zip
+    :: æ£€æŸ¥ä¸´æ—¶æ–‡ä»¶å¤¹ä¸­æ˜¯å¦æœ‰yanderify.zip
     if not exist "%tmp%\yanderify.zip" (
-        echo ÕıÔÚÏÂÔØyanderify±¾Ìå...
+        echo æ­£åœ¨ä¸‹è½½yanderifyæœ¬ä½“...
         curl -o "%tmp%\yanderify.zip" https://gh.ddlc.top/https://github.com/dunnousername/yanderifier/releases/download/v4.0.3-stable/yanderify.zip
-        if %errorlevel% neq 0 (echo yanderifyÏÂÔØÊ§°Ü... && rm "%tmp%\yanderify.zip" && pause && exit 1
+        if %errorlevel% neq 0 (echo yanderifyä¸‹è½½å¤±è´¥... && rm "%tmp%\yanderify.zip" && pause && exit 1
         )
     )
-    echo ÕıÔÚ½âÑ¹yanderify±¾Ìå...  
+    echo æ­£åœ¨è§£å‹yanderifyæœ¬ä½“...  
     powershell -command Expand-Archive -Path %tmp%\yanderify.zip -DestinationPath %dir%
 	if exist "%dir%\yanderify\yanderify.exe" (
-        echo yanderify½âÑ¹Íê±Ï£¡
+        echo yanderifyè§£å‹å®Œæ¯•ï¼
     ) else (
-        echo yanderify½âÑ¹Ê§°Ü£¡
+        echo yanderifyè§£å‹å¤±è´¥ï¼
         del "%tmp%\yanderify.zip"
         pause
         exit 1
@@ -71,42 +71,42 @@ if exist "%dir%\yanderify\yanderify.exe" (
 
 
 
-:: checkpoint.tarÄ£ĞÍÏÂÔØ
+:: checkpoint.taræ¨¡å‹ä¸‹è½½
 if exist "%dir%\yanderify\checkpoint.tar" (
-	echo Ä£ĞÍ´æÔÚ£¡ÎŞĞèÏÂÔØ
+	echo æ¨¡å‹å­˜åœ¨ï¼æ— éœ€ä¸‹è½½
 ) else (
-	echo ÕıÔÚÏÂÔØÄ£ĞÍ......
+	echo æ­£åœ¨ä¸‹è½½æ¨¡å‹......
 	curl -o %dir%\yanderify\checkpoint.tar https://gh.ddlc.top/https://github.com/dunnousername/yanderifier/releases/download/model/checkpoint.tar
-	if %errorlevel% == 0 (echo checkpoint.tarÏÂÔØÍê±Ï!) else (echo checkpoint.tarÏÂÔØÊ§°Ü£¡&& pause && exit 1)
+	if %errorlevel% == 0 (echo checkpoint.tarä¸‹è½½å®Œæ¯•!) else (echo checkpoint.tarä¸‹è½½å¤±è´¥ï¼&& pause && exit 1)
 )
 
-:: ffmpegÏÂÔØ
+:: ffmpegä¸‹è½½
 if exist "%dir%\Ffmpeg\ffmpeg-win32-v3.2.4.exe" (
-	echo ffmpeg´æÔÚ£¡ÎŞĞèÏÂÔØ
+	echo ffmpegå­˜åœ¨ï¼æ— éœ€ä¸‹è½½
 ) else (
-	echo ÕıÔÚÏÂÔØffmpeg.....
+	echo æ­£åœ¨ä¸‹è½½ffmpeg.....
 	curl -o  %tmp%\ffmpeg.zip https://gh.ddlc.top/https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-win64-gpl.zip
-		if %errorlevel% neq 0 (echo ffmpegÏÂÔØÊ§°Ü£¡&& pause && exit 1)
+		if %errorlevel% neq 0 (echo ffmpegä¸‹è½½å¤±è´¥ï¼&& pause && exit 1)
 			powershell -command Expand-Archive -Path %tmp%\ffmpeg.zip -DestinationPath %tmp%
 	       	if exist %tmp%\ffmpeg-master-latest-win64-gpl\bin\ffmpeg.exe (
 	       		copy %tmp%\ffmpeg-master-latest-win64-gpl\bin\ffmpeg.exe %dir%\Ffmpeg\ffmpeg-win32-v3.2.4.exe
-				echo ffmpeg½âÑ¹Íê±Ï£¡
+				echo ffmpegè§£å‹å®Œæ¯•ï¼
 			) else (
-				echo ffmpeg½âÑ¹Ê§°Ü£¡
+				echo ffmpegè§£å‹å¤±è´¥ï¼
 				del "%tmp%\ffmpeg.zip"
-				echo ³¢ÊÔ×Ô´øffmpeg
+				echo å°è¯•è‡ªå¸¦ffmpeg
 				copy %dir%\yanderify\ffmpeg.exe %dir%\Ffmpeg\ffmpeg-win32-v3.2.4.exe
-				if not exist %dir%\Ffmpeg\ffmpeg-win32-v3.2.4.exe (echo ·½°¸Ê§°Ü && pause && exit 1)
+				if not exist %dir%\Ffmpeg\ffmpeg-win32-v3.2.4.exe (echo æ–¹æ¡ˆå¤±è´¥ && pause && exit 1)
 			)
 )
 
-:: ´´½¨×ÀÃæÍ¼±ê
+:: åˆ›å»ºæ¡Œé¢å›¾æ ‡
 set "target=%dir%\yanderify\yanderify.exe"
 set "workingDirectory=%dir%\yanderify\"
 set "shortcutName=Yanderify"
 powershell "$s=(New-Object -COM WScript.Shell).CreateShortcut('%userprofile%\Desktop\%shortcutName%.lnk');$s.TargetPath='%target%';$s.WorkingDirectory='%workingDirectory%';$s.Save()"
-echo ¿ì½İ·½Ê½ÒÑ´´½¨ÔÚ×ÀÃæÉÏ£º%shortcutName%.lnk
-echo Æô¶¯ÖĞ......
+echo å¿«æ·æ–¹å¼å·²åˆ›å»ºåœ¨æ¡Œé¢ä¸Šï¼š%shortcutName%.lnk
+echo å¯åŠ¨ä¸­......
 start %userprofile%\Desktop\%shortcutName%.lnk
 goto:eof
 
@@ -114,6 +114,6 @@ goto:eof
 rd /S /Q %dir%<nul
 rd /S /Q %tmp%<nul
 del /S /F /Q %userprofile%\Desktop\*yanderify*.lnk<nul
-echo É¾³ıÍê±Ï£¡
+echo åˆ é™¤å®Œæ¯•ï¼
 pause
 goto:eof
